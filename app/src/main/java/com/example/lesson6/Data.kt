@@ -13,6 +13,7 @@ data class Data(
     var picture: Int = 0,
     var date: Date? = null
 ): Parcelable {
+
     companion object {
         const val TYPE_USUAL = 0
         const val TYPE_IMPORTANT = 1
