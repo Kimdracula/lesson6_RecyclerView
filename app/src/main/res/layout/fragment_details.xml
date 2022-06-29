@@ -1,35 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsFragment">
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button_second"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextHeader"
+            android:background="@null"
+            android:layout_width="@dimen/EditTextWidth"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:hint="@string/TitleEditText"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/margin_start_note_fragment"
+            android:textSize="@dimen/text_size_header"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSetDate"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/MarginTopButtonSetDate"
+            android:layout_marginStart="@dimen/margin_start_buttonSetDate"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#90CAF9"
+            android:textColor="@color/material_on_background_emphasis_high_type"
+            android:text="@string/setDate" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textViewDate"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#C5E1A5"
+            android:layout_marginStart="@dimen/margin_start_note_fragment"
+            android:alpha="0.6"
+            android:textSize="@dimen/text_size_date"
+            android:text="@string/date" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextDescription"
+            android:background="@null"
+            android:layout_marginTop="@dimen/editTextMarginTop"
+            android:layout_width="@dimen/EditTextWidth"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_note_fragment"
+            android:text=""
+            android:hint="@string/editTextDescription"
+            android:textColor="@color/material_on_surface_emphasis_medium"
+            android:textSize="@dimen/text_size_description" />
+
+        <ImageView
+            android:id="@+id/imageViewNote"
+            android:layout_width="@dimen/pictureWidth"
+            android:layout_height="@dimen/pictureHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/imageViewNoteMargin">
+        </ImageView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintBottom_toTopOf="@id/textview_second"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/MarginEndFloatingButton"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_baseline_attach_file_24"
+            android:focusable="true" />
 
-        <TextView
-            android:id="@+id/textview_second"
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonDeleteNote"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/ButtonDeleteNoteMarginTop"
+            android:layout_marginBottom="@dimen/buttonDeleteNoteMarginBottom"
+            android:layout_width="@dimen/width_buttonDeleteNote"
+            android:backgroundTint="#90CAF9"
+            android:textColor="@color/material_on_background_emphasis_high_type"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lorem_ipsum"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_second" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            android:text="@string/tetx_delete_note" />
+
+    </LinearLayout>
+
+
+</ScrollView>
