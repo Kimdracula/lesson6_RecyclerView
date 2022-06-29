@@ -11,15 +11,15 @@
         android:layout_marginTop="@dimen/margin_top_recycle_item"
         android:layout_marginBottom="@dimen/margin_bottom_recycle_item"
         android:minHeight="@dimen/card_min_height"
-        android:paddingStart="@dimen/padding_start_recycle_item"
+        android:orientation="vertical"
         android:paddingVertical="@dimen/padding_vertical_recycle_item"
-        android:orientation="vertical">
+        android:paddingStart="@dimen/padding_start_recycle_item">
 
 
         <TextView
             android:id="@+id/textViewHeader"
-            android:layout_width="@dimen/recycle_item_header_width"
-            android:layout_height="@dimen/recycle_item_header_height"
+            android:layout_width="153dp"
+            android:layout_height="21dp"
             android:text="@string/text_header"
             android:textColor="@color/material_on_background_emphasis_high_type"
             android:textSize="@dimen/text_size_header_recycle_item"
@@ -27,50 +27,67 @@
             app:layout_constraintStart_toStartOf="@+id/textViewDescription"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <TextView
             android:id="@+id/textViewDescription"
-            android:layout_width="@dimen/recycle_item_header_width"
-            android:layout_height="@dimen/recycle_item_description_height"
-            android:paddingTop="@dimen/recycle_item_padding_top"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.96"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/text_description"
             android:textColor="@color/material_on_surface_emphasis_medium"
             android:textSize="@dimen/text_size_description_recycle_item"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewHeader" />
 
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.6"
-            android:paddingTop="@dimen/recycle_date_padding_top"
             android:text="@string/date"
             android:textColor="#C5E1A5"
             android:textSize="@dimen/text_size_date_recycle_item"
-            app:layout_constraintStart_toStartOf="@+id/textViewDescription"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/recycle_item_image_size"
-            android:layout_height="@dimen/recycle_item_image_size"
-            android:layout_marginEnd="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </ImageView>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/dragHandleImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:layout_marginTop="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_dehaze_24" />
 
+        <ImageView
+            android:id="@+id/clearImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_clear_24" />
 
+        <ImageView
+            android:id="@+id/arrowUpImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_drop_up_24" />
 
+        <ImageView
+            android:id="@+id/arrowDownImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -18,8 +18,8 @@ class DiffUtilCallback(private var oldItems: List<Pair<Data, Boolean>>,
 
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldItems[oldItemPosition].first.someText ==
-                newItems[newItemPosition].first.someText
+        oldItems[oldItemPosition].first.header ==
+                newItems[newItemPosition].first.header
 
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {

@@ -1,6 +1,6 @@
 package com.example.lesson6
 
-import android.graphics.Color
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.Data.Companion.TYPE_IMPORTANT
 import com.example.lesson6.Data.Companion.TYPE_USUAL
 
-class RecyclerAdapter (
+class RecyclerAdapter(
     private var onListItemClickListener: OnListItemClickListener,
     private var data: MutableList<Pair<Data, Boolean>>,
     private val dragListener: OnStartDragListener
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
-
-
 
     fun setItems(newItems: List<Pair<Data, Boolean>>) {
         val result = DiffUtil.calculateDiff(DiffUtilCallback(data, newItems))
@@ -31,9 +29,21 @@ class RecyclerAdapter (
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            TYPE_USUAL -> UsualViewHolder(inflater.inflate(R.layout.note_usual_item, parent, false) as View)
-            TYPE_IMPORTANT -> UsualViewHolder(inflater.inflate(R.layout.note_important_item, parent, false) as View)
-            else ->ExtraViewHolder(inflater.inflate(R.layout.note_extra_item, parent, false))
+            TYPE_USUAL -> UsualViewHolder(
+                inflater.inflate(
+                    R.layout.note_usual_item,
+                    parent,
+                    false
+                ) as View
+            )
+            TYPE_IMPORTANT -> ImportantViewHolder(
+                inflater.inflate(
+                    R.layout.note_important_item,
+                    parent,
+                    false
+                ) as View
+            )
+            else -> ExtraViewHolder(inflater.inflate(R.layout.note_extra_item, parent, false))
         }
     }
 
@@ -41,7 +51,7 @@ class RecyclerAdapter (
         holder.bind(data[position])
     }
 
-    override fun onBindViewHolder(
+ /*   override fun onBindViewHolder(
         holder: BaseViewHolder,
         position: Int,
         payloads: MutableList<Any>
@@ -55,12 +65,14 @@ class RecyclerAdapter (
             val oldData = combinedChange.oldData
             val newData = combinedChange.newData
             if (newData.first.header != oldData.first.header) {
-                holder.itemView.findViewById<TextView>(R.id.marsTextView).text =
+                holder.itemView.findViewById<TextView>(R.id.textViewHeader).text =
                     newData.first.header
             }
 
 
-        }}
+        }
+    }
+    */
 
     override fun getItemCount(): Int = data.size
 
@@ -69,35 +81,17 @@ class RecyclerAdapter (
 
 
     inner class UsualViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
+        @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
-            itemView.findViewById<ImageView>(R.id.marsImageView).setOnClickListener {
-                onListItemClickListener.onItemClick(data.first)
-            }
-            itemView.findViewById<ImageView>(R.id.removeItemImageView).setOnClickListener {
-                removeItem(layoutPosition)
-            }
-            itemView.findViewById<ImageView>(R.id.moveItemDown).setOnClickListener {
-                moveDown(layoutPosition)
-            }
-            itemView.findViewById<ImageView>(R.id.moveItemUp).setOnClickListener {
-                moveUp(layoutPosition)
-            }
 
-            itemView.findViewById<TextView>(R.id.marsDescriptionTextView).visibility =
-                if (data.second) View.VISIBLE else View.GONE
-            itemView.findViewById<TextView>(R.id.marsTextView).setOnClickListener {
-                toggleText(layoutPosition)
-            }
+            setViews(itemView, data, layoutPosition)
             itemView.findViewById<ImageView>(R.id.dragHandleImageView)
                 .setOnTouchListener { _, motionEvent ->
                     if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
                         dragListener.onStartDrag(this)
                     }
                     false
-
                 }
-
-
         }
 
         override fun onItemSelected() {
@@ -107,10 +101,38 @@ class RecyclerAdapter (
         override fun onItemClear() {
             TODO("Not yet implemented")
         }
+    }
+
+    private fun setViews(itemView: View, data: Pair<Data, Boolean>, layoutPosition: Int) {
+        itemView.findViewById<TextView>(R.id.textViewHeader).text = data.first.header
+
+        itemView.findViewById<TextView>(R.id.textViewDescription).text = data.first.description
+
+        itemView.findViewById<ImageView>(R.id.clearImageView).setOnClickListener {
+            removeItem(layoutPosition)
+        }
+        itemView.findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
+            moveDown(layoutPosition)
+        }
+        itemView.findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
+            moveUp(layoutPosition)
+        }
+
     }
 
     inner class ImportantViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
-        override fun bind(data: Pair<Data, Boolean>) {}
+        @SuppressLint("ClickableViewAccessibility")
+        override fun bind(data: Pair<Data, Boolean>) {
+
+            setViews(itemView, data, layoutPosition)
+            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
+                .setOnTouchListener { _, motionEvent ->
+                    if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
+                        dragListener.onStartDrag(this)
+                    }
+                    false
+                }
+        }
         override fun onItemSelected() {
             TODO("Not yet implemented")
         }
@@ -120,61 +142,60 @@ class RecyclerAdapter (
         }
     }
 
-        inner class ExtraViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
-            override fun bind(data: Pair<Data, Boolean>) {}
-            override fun onItemSelected() {
-                TODO("Not yet implemented")
-            }
+    inner class ExtraViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
+        @SuppressLint("ClickableViewAccessibility")
+        override fun bind(data: Pair<Data, Boolean>) {
 
-            override fun onItemClear() {
-                TODO("Not yet implemented")
-            }
+                setViews(itemView, data, layoutPosition)
+                itemView.findViewById<ImageView>(R.id.dragHandleImageView)
+                    .setOnTouchListener { _, motionEvent ->
+                        if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
+                            dragListener.onStartDrag(this)
+                        }
+                        false
+                    }
+        }
+        override fun onItemSelected() {
+            TODO("Not yet implemented")
         }
 
-
-
-
-        private fun toggleText(layoutPosition: Int) {
-            data[layoutPosition] = data[layoutPosition].let {
-                it.first to !it.second
-            }
-            notifyItemChanged(layoutPosition)
+        override fun onItemClear() {
+            TODO("Not yet implemented")
         }
-
-
-        private fun moveUp(layoutPosition: Int) {
-            layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
-                data.removeAt(currentPosition).apply {
-                    data.add(currentPosition - 1, this)
-                }
-                notifyItemMoved(currentPosition, currentPosition - 1)
-            }
-        }
-
-        private fun moveDown(layoutPosition: Int) {
-            layoutPosition.takeIf { it < data.size - 1 }?.also { currentPosition ->
-                data.removeAt(currentPosition).apply {
-                    data.add(currentPosition + 1, this)
-                }
-                notifyItemMoved(currentPosition, currentPosition + 1)
-            }
-        }
-
-
-        private fun addItem(layoutPosition: Int) {
-            data.add(layoutPosition, generateItem())
-            notifyItemInserted(layoutPosition)
-        }
-
-        private fun removeItem(layoutPosition: Int) {
-            data.removeAt(layoutPosition)
-            notifyItemRemoved(layoutPosition)
-        }
-
-
-
     }
 
+
+    private fun toggleText(layoutPosition: Int) {
+        data[layoutPosition] = data[layoutPosition].let {
+            it.first to !it.second
+        }
+        notifyItemChanged(layoutPosition)
+    }
+
+
+    private fun moveUp(layoutPosition: Int) {
+        layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
+            data.removeAt(currentPosition).apply {
+                data.add(currentPosition - 1, this)
+            }
+            notifyItemMoved(currentPosition, currentPosition - 1)
+        }
+    }
+
+    private fun moveDown(layoutPosition: Int) {
+        layoutPosition.takeIf { it < data.size - 1 }?.also { currentPosition ->
+            data.removeAt(currentPosition).apply {
+                data.add(currentPosition + 1, this)
+            }
+            notifyItemMoved(currentPosition, currentPosition + 1)
+        }
+    }
+
+
+    private fun removeItem(layoutPosition: Int) {
+        data.removeAt(layoutPosition)
+        notifyItemRemoved(layoutPosition)
+    }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         data.removeAt(fromPosition).apply {
@@ -190,6 +211,7 @@ class RecyclerAdapter (
         data.removeAt(position)
         notifyItemRemoved(position)
     }
+
 
 }
 
