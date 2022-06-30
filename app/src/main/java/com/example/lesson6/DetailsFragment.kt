@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.lesson6.Data.Companion.TYPE_USUAL
 import com.example.lesson6.databinding.FragmentDetailsBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,8 +61,7 @@ class DetailsFragment : Fragment() {
             requireContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
             cal[Calendar.YEAR],
             cal[Calendar.MONTH],
-            cal[Calendar.DAY_OF_MONTH]
-        )
+            cal[Calendar.DAY_OF_MONTH])
         cal[Calendar.HOUR_OF_DAY]
     }
 
@@ -93,4 +93,21 @@ class DetailsFragment : Fragment() {
     }
 }
 
+    override fun onStop() {
+        super.onStop()
+        val args = Bundle()
+        args.putParcelable(KEY_PARCEL, collectData())
+        RecyclerViewFragment().arguments = args
+    }
+
+    private fun collectData() :Data{
+val title = binding.editTextHeader.toString()
+        val description = binding.editTextDescription.toString()
+        val date:Date =try {
+            dateFromDatePicker
+        } catch (ignored: NullPointerException) {
+            Calendar.getInstance().time
+        }
+        return (Data(TYPE_USUAL, title,description,date))
+    }
 }

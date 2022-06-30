@@ -17,6 +17,9 @@ class RecyclerViewFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var adapter: RecyclerAdapter
+    private var data :MutableList<Pair<Data,Boolean>> = arrayListOf()
+   private var savedData: Data? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,17 +32,26 @@ class RecyclerViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+if(data.size==0) {
+    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+}
+
+        if (arguments != null) {
+           savedData = requireArguments().getParcelable(KEY_PARCEL)
+            data.add(Pair(savedData,false) as Pair<Data, Boolean>)
+            adapter.notifyItemInserted(data.size-1)
+        }
 
 
-        val data = arrayListOf(
-            Pair(Data(1, Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true),
-            Pair(Data(1, Data.TYPE_USUAL, "Заголовок 2", "Описание 2"), true),
-            Pair(Data(1, Data.TYPE_IMPORTANT, "Заголовок 3", "Описание 3"), true),
-            Pair(Data(1, Data.TYPE_EXTRA, "Заголовок 4", "Описание 4"), true)
-        )
+
+
+
+
 
         setAddNoteButtonBehavior()
-        setAdaptersAndHelpers(data)
+        setAdaptersAndHelpers(data as ArrayList<Pair<Data, Boolean>>)
     }
 
     private fun setAdaptersAndHelpers(data: ArrayList<Pair<Data, Boolean>>) {

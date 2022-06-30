@@ -18,12 +18,8 @@ class RecyclerAdapter(
     private val dragListener: OnStartDragListener
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 
-    fun setItems(newItems: List<Pair<Data, Boolean>>) {
-        val result = DiffUtil.calculateDiff(DiffUtilCallback(data, newItems))
-        result.dispatchUpdatesTo(this)
-        data.clear()
-        data.addAll(newItems)
-    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
