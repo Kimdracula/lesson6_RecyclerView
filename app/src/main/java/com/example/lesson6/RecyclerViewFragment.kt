@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.databinding.FragmentRecyclerviewBinding
@@ -28,20 +29,26 @@ class RecyclerViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         val data = arrayListOf(
-            Pair(Data(1, Data.TYPE_USUAL, "Заголовок", "Описание"), true),
-            Pair(Data(1, Data.TYPE_USUAL, "Заголовок", "Описание"), true),
-            Pair(Data(1, Data.TYPE_IMPORTANT, "Заголовок", "Описание"), true),
-            Pair(Data(1, Data.TYPE_EXTRA, "Заголовок", "Описание"), true)
+            Pair(Data(1, Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true),
+            Pair(Data(1, Data.TYPE_USUAL, "Заголовок 2", "Описание 2"), true),
+            Pair(Data(1, Data.TYPE_IMPORTANT, "Заголовок 3", "Описание 3"), true),
+            Pair(Data(1, Data.TYPE_EXTRA, "Заголовок 4", "Описание 4"), true)
         )
 
+        setAddNoteButtonBehavior()
+        setAdaptersAndHelpers(data)
+    }
+
+    private fun setAdaptersAndHelpers(data: ArrayList<Pair<Data, Boolean>>) {
         adapter = RecyclerAdapter(
             object : OnListItemClickListener {
                 override fun onItemClick(data: Data) {
-                    Toast.makeText(
-                        requireContext(), "Кликнулось",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, DetailsFragment.newInstance(data))
+                        .addToBackStack("").commit()
                 }
             },
             data,
@@ -50,11 +57,18 @@ class RecyclerViewFragment : Fragment() {
                     itemTouchHelper.startDrag(viewHolder)
                 }
             }
-
         )
         binding.recycleList.adapter = adapter
         itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
         itemTouchHelper.attachToRecyclerView(binding.recycleList)
+    }
+
+    private fun setAddNoteButtonBehavior() {
+        binding.buttonAddNote.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, DetailsFragment.newInstance())
+                .addToBackStack("").commit()
+        }
     }
 
 
@@ -67,4 +81,5 @@ class RecyclerViewFragment : Fragment() {
     fun newInstance(): RecyclerViewFragment {
         return RecyclerViewFragment()
     }
+
 }

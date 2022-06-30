@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text=""
             android:hint="@string/TitleEditText"
+            android:layout_marginTop="30dp"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/margin_start_note_fragment"
             android:textSize="@dimen/text_size_header"/>
@@ -53,35 +54,6 @@
             android:hint="@string/editTextDescription"
             android:textColor="@color/material_on_surface_emphasis_medium"
             android:textSize="@dimen/text_size_description" />
-
-        <ImageView
-            android:id="@+id/imageViewNote"
-            android:layout_width="@dimen/pictureWidth"
-            android:layout_height="@dimen/pictureHeight"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/imageViewNoteMargin">
-        </ImageView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/MarginEndFloatingButton"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_baseline_attach_file_24"
-            android:focusable="true" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonDeleteNote"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/ButtonDeleteNoteMarginTop"
-            android:layout_marginBottom="@dimen/buttonDeleteNoteMarginBottom"
-            android:layout_width="@dimen/width_buttonDeleteNote"
-            android:backgroundTint="#90CAF9"
-            android:textColor="@color/material_on_background_emphasis_high_type"
-            android:layout_height="wrap_content"
-            android:text="@string/tetx_delete_note" />
 
     </LinearLayout>
 

@@ -25,7 +25,6 @@ class RecyclerAdapter(
         data.addAll(newItems)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
@@ -51,29 +50,6 @@ class RecyclerAdapter(
         holder.bind(data[position])
     }
 
- /*   override fun onBindViewHolder(
-        holder: BaseViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-
-        if (payloads.isEmpty())
-            super.onBindViewHolder(holder, position, payloads)
-        else {
-            val combinedChange =
-                createCombinedPayload(payloads as List<Change<Pair<Data, Boolean>>>)
-            val oldData = combinedChange.oldData
-            val newData = combinedChange.newData
-            if (newData.first.header != oldData.first.header) {
-                holder.itemView.findViewById<TextView>(R.id.textViewHeader).text =
-                    newData.first.header
-            }
-
-
-        }
-    }
-    */
-
     override fun getItemCount(): Int = data.size
 
 
@@ -94,31 +70,32 @@ class RecyclerAdapter(
                 }
         }
 
-        override fun onItemSelected() {
-            TODO("Not yet implemented")
-        }
+        override fun onItemSelected() {}
 
-        override fun onItemClear() {
-            TODO("Not yet implemented")
-        }
+        override fun onItemClear() {}
     }
 
     private fun setViews(itemView: View, data: Pair<Data, Boolean>, layoutPosition: Int) {
-        itemView.findViewById<TextView>(R.id.textViewHeader).text = data.first.header
+        with(itemView) {
 
-        itemView.findViewById<TextView>(R.id.textViewDescription).text = data.first.description
+            itemView.setOnClickListener { onListItemClickListener.onItemClick(data.first) }
 
-        itemView.findViewById<ImageView>(R.id.clearImageView).setOnClickListener {
-            removeItem(layoutPosition)
-        }
-        itemView.findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
-            moveDown(layoutPosition)
-        }
-        itemView.findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
-            moveUp(layoutPosition)
-        }
+            findViewById<TextView>(R.id.textViewHeader).text = data.first.header
 
+            findViewById<TextView>(R.id.textViewDescription).text = data.first.description
+
+            findViewById<ImageView>(R.id.clearImageView).setOnClickListener {
+                removeItem(layoutPosition)
+            }
+            findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
+                moveDown(layoutPosition)
+            }
+            findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
+                moveUp(layoutPosition)
+            }
+        }
     }
+
 
     inner class ImportantViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         @SuppressLint("ClickableViewAccessibility")
@@ -133,45 +110,28 @@ class RecyclerAdapter(
                     false
                 }
         }
-        override fun onItemSelected() {
-            TODO("Not yet implemented")
-        }
 
-        override fun onItemClear() {
-            TODO("Not yet implemented")
-        }
+        override fun onItemSelected() {}
+        override fun onItemClear() {}
     }
 
     inner class ExtraViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
 
-                setViews(itemView, data, layoutPosition)
-                itemView.findViewById<ImageView>(R.id.dragHandleImageView)
-                    .setOnTouchListener { _, motionEvent ->
-                        if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
-                            dragListener.onStartDrag(this)
-                        }
-                        false
+            setViews(itemView, data, layoutPosition)
+            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
+                .setOnTouchListener { _, motionEvent ->
+                    if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
+                        dragListener.onStartDrag(this)
                     }
-        }
-        override fun onItemSelected() {
-            TODO("Not yet implemented")
+                    false
+                }
         }
 
-        override fun onItemClear() {
-            TODO("Not yet implemented")
-        }
+        override fun onItemSelected() {}
+        override fun onItemClear() {}
     }
-
-
-    private fun toggleText(layoutPosition: Int) {
-        data[layoutPosition] = data[layoutPosition].let {
-            it.first to !it.second
-        }
-        notifyItemChanged(layoutPosition)
-    }
-
 
     private fun moveUp(layoutPosition: Int) {
         layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
@@ -211,7 +171,6 @@ class RecyclerAdapter(
         data.removeAt(position)
         notifyItemRemoved(position)
     }
-
 
 }
 

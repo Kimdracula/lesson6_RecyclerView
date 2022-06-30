@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_add_note_button"
         android:backgroundTint="#90CAF9"
+        android:layout_marginTop="40dp"
         android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_gravity="center_horizontal"
         android:text="@string/text_new_note" />
