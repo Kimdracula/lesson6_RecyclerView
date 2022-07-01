@@ -9,9 +9,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddNote"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:textSize="@dimen/text_size_add_note_button"
-        android:backgroundTint="#90CAF9"
         android:layout_marginTop="40dp"
         android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_gravity="center_horizontal"
@@ -34,6 +33,13 @@
         android:textColor="@color/white"
         android:alpha="0.6"
         android:text="@string/date" />
+
+
+    <SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_list"

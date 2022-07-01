@@ -33,7 +33,6 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:backgroundTint="#90CAF9"
             android:text="@string/setDate"
             android:textColor="@color/material_on_background_emphasis_high_type"
             app:layout_constraintStart_toStartOf="parent"
