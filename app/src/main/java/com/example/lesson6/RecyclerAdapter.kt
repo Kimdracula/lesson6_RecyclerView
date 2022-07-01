@@ -2,12 +2,10 @@ package com.example.lesson6
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.Data.Companion.TYPE_IMPORTANT
 import com.example.lesson6.Data.Companion.TYPE_USUAL
@@ -15,11 +13,7 @@ import com.example.lesson6.Data.Companion.TYPE_USUAL
 class RecyclerAdapter(
     private var onListItemClickListener: OnListItemClickListener,
     private var data: MutableList<Pair<Data, Boolean>>,
-    private val dragListener: OnStartDragListener
-) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
-
-
-
+) : RecyclerView.Adapter<BaseViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -52,24 +46,19 @@ class RecyclerAdapter(
     override fun getItemViewType(position: Int): Int = data[position].first.type
 
 
-    inner class UsualViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
+    inner class UsualViewHolder(view: View) : BaseViewHolder(view) {
         @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
 
             setViews(itemView, data, layoutPosition)
-            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
-                .setOnTouchListener { _, motionEvent ->
-                    if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
-                        dragListener.onStartDrag(this)
-                    }
-                    false
+            itemView.findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
+                moveDown(layoutPosition)
+            }
+            itemView.findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
+                moveUp(layoutPosition)
                 }
-        }
+        }}
 
-        override fun onItemSelected() {}
-
-        override fun onItemClear() {}
-    }
 
     private fun setViews(itemView: View, data: Pair<Data, Boolean>, layoutPosition: Int) {
         with(itemView) {
@@ -83,68 +72,46 @@ class RecyclerAdapter(
             findViewById<ImageView>(R.id.clearImageView).setOnClickListener {
                 removeItem(layoutPosition)
             }
-            findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
+
+        }
+    }
+
+
+
+    inner class ImportantViewHolder(view: View) : BaseViewHolder(view) {
+        @SuppressLint("ClickableViewAccessibility")
+        override fun bind(data: Pair<Data, Boolean>) {
+
+            setViews(itemView, data, layoutPosition)
+          itemView.findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
                 moveDown(layoutPosition)
             }
-            findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
+            itemView.findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
                 moveUp(layoutPosition)
             }
-        }
     }
+        }
 
-
-    inner class ImportantViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
+    inner class ExtraViewHolder(view: View) : BaseViewHolder(view) {
         @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
 
             setViews(itemView, data, layoutPosition)
-            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
-                .setOnTouchListener { _, motionEvent ->
-                    if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
-                        dragListener.onStartDrag(this)
-                    }
-                    false
-                }
         }
-
-        override fun onItemSelected() {}
-        override fun onItemClear() {}
-    }
-
-    inner class ExtraViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
-        @SuppressLint("ClickableViewAccessibility")
-        override fun bind(data: Pair<Data, Boolean>) {
-
-            setViews(itemView, data, layoutPosition)
-            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
-                .setOnTouchListener { _, motionEvent ->
-                    if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
-                        dragListener.onStartDrag(this)
-                    }
-                    false
-                }
-        }
-
-        override fun onItemSelected() {}
-        override fun onItemClear() {}
     }
 
     private fun moveUp(layoutPosition: Int) {
-        layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
-            data.removeAt(currentPosition).apply {
-                data.add(currentPosition - 1, this)
-            }
-            notifyItemMoved(currentPosition, currentPosition - 1)
+        data.removeAt(layoutPosition).apply {
+            data.add(layoutPosition - 1, this)
         }
+        notifyItemMoved(layoutPosition, layoutPosition - 1)
     }
 
     private fun moveDown(layoutPosition: Int) {
-        layoutPosition.takeIf { it < data.size - 1 }?.also { currentPosition ->
-            data.removeAt(currentPosition).apply {
-                data.add(currentPosition + 1, this)
-            }
-            notifyItemMoved(currentPosition, currentPosition + 1)
+        data.removeAt(layoutPosition).apply {
+            data.add(layoutPosition + 1, this)
         }
+        notifyItemMoved(layoutPosition, layoutPosition + 1)
     }
 
 
@@ -152,22 +119,6 @@ class RecyclerAdapter(
         data.removeAt(layoutPosition)
         notifyItemRemoved(layoutPosition)
     }
-
-    override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        data.removeAt(fromPosition).apply {
-            data.add(
-                if (toPosition > fromPosition) toPosition - 1 else toPosition,
-                this
-            )
-        }
-        notifyItemMoved(fromPosition, toPosition)
-    }
-
-    override fun onItemDismiss(position: Int) {
-        data.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
 }
 
 abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
