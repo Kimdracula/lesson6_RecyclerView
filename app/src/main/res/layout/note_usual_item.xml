@@ -17,19 +17,19 @@
 
 
         <TextView
-            android:id="@+id/textViewHeader"
+            android:id="@+id/textViewHeaderUsual"
             android:layout_width="153dp"
             android:layout_height="21dp"
             android:text="@string/text_header"
             android:textColor="@color/material_on_background_emphasis_high_type"
             android:textSize="@dimen/text_size_header_recycle_item"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/textViewDescription"
+            app:layout_constraintStart_toStartOf="@+id/textViewDescriptionUsual"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
-            android:id="@+id/textViewDescription"
+            android:id="@+id/textViewDescriptionUsual"
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.96"
             android:layout_height="wrap_content"
@@ -38,10 +38,10 @@
             android:textColor="@color/material_on_surface_emphasis_medium"
             android:textSize="@dimen/text_size_description_recycle_item"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewHeaderUsual" />
 
         <TextView
-            android:id="@+id/textViewDate"
+            android:id="@+id/textViewDateUsual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.6"
@@ -52,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/dragHandleImageView"
+            android:id="@+id/dragHandleImageViewUsual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
@@ -61,7 +61,7 @@
             app:srcCompat="@drawable/ic_baseline_dehaze_24" />
 
         <ImageView
-            android:id="@+id/clearImageView"
+            android:id="@+id/clearImageViewUsual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
@@ -70,7 +70,7 @@
             app:srcCompat="@drawable/ic_baseline_clear_24" />
 
         <ImageView
-            android:id="@+id/arrowUpImageView"
+            android:id="@+id/arrowUpImageViewUsual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
             app:srcCompat="@drawable/ic_baseline_arrow_drop_up_24" />
 
         <ImageView
-            android:id="@+id/arrowDownImageView"
+            android:id="@+id/arrowDownImageViewUsual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -34,7 +34,10 @@ class RecyclerViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 if(data.size==0) {
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_EXTRA, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
 }
 

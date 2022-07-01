@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.Data.Companion.TYPE_IMPORTANT
 import com.example.lesson6.Data.Companion.TYPE_USUAL
@@ -17,9 +16,6 @@ class RecyclerAdapter(
     private var data: MutableList<Pair<Data, Boolean>>,
     private val dragListener: OnStartDragListener
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
-
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -56,8 +52,26 @@ class RecyclerAdapter(
         @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
 
-            setViews(itemView, data, layoutPosition)
-            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
+            with(itemView) {
+
+                itemView.setOnClickListener { onListItemClickListener.onItemClick(data.first) }
+
+                findViewById<TextView>(R.id.textViewHeaderUsual).text = data.first.header
+
+                findViewById<TextView>(R.id.textViewDescriptionUsual).text = data.first.description
+
+                findViewById<ImageView>(R.id.clearImageViewUsual).setOnClickListener {
+                    removeItem(layoutPosition)
+                }
+                findViewById<ImageView>(R.id.arrowDownImageViewUsual).setOnClickListener {
+                    moveDown(layoutPosition)
+                }
+                findViewById<ImageView>(R.id.arrowUpImageViewUsual).setOnClickListener {
+                    moveUp(layoutPosition)
+                }
+            }
+
+            itemView.findViewById<ImageView>(R.id.dragHandleImageViewUsual)
                 .setOnTouchListener { _, motionEvent ->
                     if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
                         dragListener.onStartDrag(this)
@@ -71,34 +85,30 @@ class RecyclerAdapter(
         override fun onItemClear() {}
     }
 
-    private fun setViews(itemView: View, data: Pair<Data, Boolean>, layoutPosition: Int) {
-        with(itemView) {
-
-            itemView.setOnClickListener { onListItemClickListener.onItemClick(data.first) }
-
-            findViewById<TextView>(R.id.textViewHeader).text = data.first.header
-
-            findViewById<TextView>(R.id.textViewDescription).text = data.first.description
-
-            findViewById<ImageView>(R.id.clearImageView).setOnClickListener {
-                removeItem(layoutPosition)
-            }
-            findViewById<ImageView>(R.id.arrowDownImageView).setOnClickListener {
-                moveDown(layoutPosition)
-            }
-            findViewById<ImageView>(R.id.arrowUpImageView).setOnClickListener {
-                moveUp(layoutPosition)
-            }
-        }
-    }
-
 
     inner class ImportantViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
 
-            setViews(itemView, data, layoutPosition)
-            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
+            with(itemView) {
+
+                itemView.setOnClickListener { onListItemClickListener.onItemClick(data.first) }
+
+                findViewById<TextView>(R.id.textViewHeaderImportant).text = data.first.header
+
+                findViewById<TextView>(R.id.textViewDescriptionImportant).text = data.first.description
+
+                findViewById<ImageView>(R.id.clearImageViewImportant).setOnClickListener {
+                    removeItem(layoutPosition)
+                }
+                findViewById<ImageView>(R.id.arrowDownImageViewImportant).setOnClickListener {
+                    moveDown(layoutPosition)
+                }
+                findViewById<ImageView>(R.id.arrowUpImageViewImportant).setOnClickListener {
+                    moveUp(layoutPosition)
+                }
+            }
+            itemView.findViewById<ImageView>(R.id.dragHandleImageViewImportant)
                 .setOnTouchListener { _, motionEvent ->
                     if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
                         dragListener.onStartDrag(this)
@@ -115,8 +125,27 @@ class RecyclerAdapter(
         @SuppressLint("ClickableViewAccessibility")
         override fun bind(data: Pair<Data, Boolean>) {
 
-            setViews(itemView, data, layoutPosition)
-            itemView.findViewById<ImageView>(R.id.dragHandleImageView)
+            with(itemView) {
+
+                itemView.setOnClickListener { onListItemClickListener.onItemClick(data.first) }
+
+                findViewById<TextView>(R.id.textViewHeaderExtra).text = data.first.header
+
+                findViewById<TextView>(R.id.textViewDescriptionExtra).text = data.first.description
+
+                findViewById<ImageView>(R.id.clearImageViewExtra).setOnClickListener {
+                    removeItem(layoutPosition)
+                }
+                findViewById<ImageView>(R.id.arrowDownImageViewExtra).setOnClickListener {
+                    moveDown(layoutPosition)
+                }
+                findViewById<ImageView>(R.id.arrowUpImageViewExtra).setOnClickListener {
+                    moveUp(layoutPosition)
+                }
+            }
+
+
+            itemView.findViewById<ImageView>(R.id.dragHandleImageViewExtra)
                 .setOnTouchListener { _, motionEvent ->
                     if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
                         dragListener.onStartDrag(this)
