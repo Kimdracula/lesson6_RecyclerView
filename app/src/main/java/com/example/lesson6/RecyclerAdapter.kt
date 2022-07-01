@@ -5,17 +5,26 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.Data.Companion.TYPE_IMPORTANT
 import com.example.lesson6.Data.Companion.TYPE_USUAL
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RecyclerAdapter(
     private var onListItemClickListener: OnListItemClickListener,
     private var data: MutableList<Pair<Data, Boolean>>,
     private val dragListener: OnStartDragListener
-) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
+) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter,Filterable {
+
+    var filterList = ArrayList<Pair<Data, Boolean>>()
+    init {
+        filterList = data as ArrayList<Pair<Data, Boolean>>
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -195,6 +204,36 @@ class RecyclerAdapter(
     override fun onItemDismiss(position: Int) {
         data.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    override fun getFilter(): Filter {
+        return object :Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    filterList = data as ArrayList<Pair<Data, Boolean>>
+                } else {
+                    val resultList = ArrayList<Pair<Data, Boolean>>()
+                    for (row in data) {
+                        if (row.first.header?.lowercase(Locale.ROOT)!!
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
+                            resultList.add(row)
+                        }
+                    }
+                    filterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filterList = results?.values as ArrayList<Pair<Data, Boolean>>
+                notifyDataSetChanged()
+            }
+        }
+
     }
 
 }

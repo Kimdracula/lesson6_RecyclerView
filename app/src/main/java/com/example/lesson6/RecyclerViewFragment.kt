@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -36,7 +37,7 @@ if(data.size==0) {
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_IMPORTANT, "LALA", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_EXTRA, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
 }
@@ -47,7 +48,16 @@ if(data.size==0) {
             adapter.notifyItemInserted(data.size-1)
         }
 
+binding.searchBar.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+       return false
+    }
 
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter.filter(newText)
+       return false
+    }
+})
 
 
 
