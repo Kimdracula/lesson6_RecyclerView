@@ -9,17 +9,17 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.Data.Companion.TYPE_IMPORTANT
 import com.example.lesson6.Data.Companion.TYPE_USUAL
-import java.util.*
-import kotlin.collections.ArrayList
 
 class RecyclerAdapter(
     private var onListItemClickListener: OnListItemClickListener,
     private var data: MutableList<Pair<Data, Boolean>>,
     private val dragListener: OnStartDragListener
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter,Filterable {
+
 
     var filterList = ArrayList<Pair<Data, Boolean>>()
     init {
@@ -48,13 +48,27 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(filterList[position])
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun onBindViewHolder(
+        holder: BaseViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty())
+            super.onBindViewHolder(holder, position, payloads)
+        else {
+          if (payloads[0]==true)
+              holder.bind(filterList[position])
+            }
+        }
 
 
-    override fun getItemViewType(position: Int): Int = data[position].first.type
+    override fun getItemCount(): Int = filterList.size
+
+
+    override fun getItemViewType(position: Int): Int = filterList[position].first.type
 
 
     inner class UsualViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
@@ -209,33 +223,39 @@ class RecyclerAdapter(
     override fun getFilter(): Filter {
         return object :Filter(){
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    filterList = data as ArrayList<Pair<Data, Boolean>>
-                } else {
-                    val resultList = ArrayList<Pair<Data, Boolean>>()
-                    for (row in data) {
-                        if (row.first.header?.lowercase(Locale.ROOT)!!
-                                .contains(charSearch.lowercase(Locale.ROOT))
-                        ) {
-                            resultList.add(row)
+                val charString = constraint?.toString() ?: ""
+                if (charString.isEmpty()) filterList = data as ArrayList<Pair<Data, Boolean>> else {
+                    val filteredList = ArrayList<Pair<Data, Boolean>>()
+                    data
+                        .filter {
+                            (it.first.header!!.contains(constraint!!)) or
+                                    (it.first.description!!.contains(constraint))
+
                         }
-                    }
-                    filterList = resultList
+                        .forEach { filteredList.add(it) }
+                    filterList = filteredList
+
                 }
-                val filterResults = FilterResults()
-                filterResults.values = filterList
-                return filterResults
+                return FilterResults().apply { values = filterList }
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filterList = results?.values as ArrayList<Pair<Data, Boolean>>
-                notifyDataSetChanged()
+                filterList = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<Pair<Data, Boolean>>
+              //  notifyDataSetChanged()
+                setItems(filterList)
             }
         }
 
     }
-
+    fun setItems(newItems: List<Pair<Data, Boolean>>) {
+        val result = DiffUtil.calculateDiff(DiffUtilCallback(data, newItems))
+        result.dispatchUpdatesTo(this)
+        data.clear()
+        data.addAll(newItems)
+    }
 }
 
 abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

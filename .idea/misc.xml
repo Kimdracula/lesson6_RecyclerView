@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.134" />
         <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/fragment_details.xml" value="0.264" />
         <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/fragment_recyclerview.xml" value="0.4" />
-        <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/note_extra_item.xml" value="0.1" />
+        <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/note_extra_item.xml" value="0.2" />
         <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/note_important_item.xml" value="0.11834319526627218" />
         <entry key="..\:/Users/Acer/AndroidStudioProjects/lesson6_RecyclerView/app/src/main/res/layout/note_usual_item.xml" value="0.1" />
         <entry key="..\:/Users/Vlad/AndroidStudioProjects/lesson62/app/src/main/res/layout/activity_main.xml" value="0.11574074074074074" />

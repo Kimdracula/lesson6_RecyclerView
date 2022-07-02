@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson6.databinding.FragmentRecyclerviewBinding
@@ -38,8 +36,8 @@ if(data.size==0) {
     data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
     data.add(Pair(Data(Data.TYPE_IMPORTANT, "LALA", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_EXTRA, "Заголовок 1", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+    data.add(Pair(Data(Data.TYPE_EXTRA, "Заголовок 1", "TEST"), true))
+    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "TESTING"), true))
 }
 
         if (arguments != null) {
@@ -101,7 +99,6 @@ binding.searchBar.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
         super.onDestroyView()
         _binding = null
     }
-
 
     fun newInstance(): RecyclerViewFragment {
         return RecyclerViewFragment()
