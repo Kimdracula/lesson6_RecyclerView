@@ -50,8 +50,7 @@ class RecyclerAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.bind(filterList[position])
     }
-
-    override fun onBindViewHolder(
+  /*  override fun onBindViewHolder(
         holder: BaseViewHolder,
         position: Int,
         payloads: MutableList<Any>
@@ -59,10 +58,17 @@ class RecyclerAdapter(
         if (payloads.isEmpty())
             super.onBindViewHolder(holder, position, payloads)
         else {
-          if (payloads[0]==true)
+            val combinedChange = createCombinedPayload(payloads as List<Change<Pair<Data, Boolean>>>)
+            val oldData = combinedChange.oldData
+            val newData = combinedChange.newData
+            if (newData.first.header != oldData.first.header) {
               holder.bind(filterList[position])
+                holder.itemView.findViewById<TextView>(R.id.textViewHeaderImportant)
             }
         }
+    }
+
+   *////////// У МЕНЯ ТОЧЕЧНО НИЧЕГО НЕ МЕНЯЕТСЯ- НЕ РЕАЛИЗОВЫВАЛ. НО КАК РАБОТАЕТ ПОНЯЛ.
 
 
     override fun getItemCount(): Int = filterList.size
@@ -244,8 +250,7 @@ class RecyclerAdapter(
                     ArrayList()
                 else
                     results.values as ArrayList<Pair<Data, Boolean>>
-              //  notifyDataSetChanged()
-                setItems(filterList)
+                setItems(results!!.values as ArrayList<Pair<Data, Boolean>>)
             }
         }
 
@@ -253,8 +258,6 @@ class RecyclerAdapter(
     fun setItems(newItems: List<Pair<Data, Boolean>>) {
         val result = DiffUtil.calculateDiff(DiffUtilCallback(data, newItems))
         result.dispatchUpdatesTo(this)
-        data.clear()
-        data.addAll(newItems)
     }
 }
 

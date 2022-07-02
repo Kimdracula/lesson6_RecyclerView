@@ -16,8 +16,8 @@ class RecyclerViewFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var adapter: RecyclerAdapter
-    private var data :MutableList<Pair<Data,Boolean>> = arrayListOf()
-   private var savedData: Data? = null
+    private var data: MutableList<Pair<Data, Boolean>> = arrayListOf()
+    private var savedData: Data? = null
 
 
     override fun onCreateView(
@@ -31,36 +31,31 @@ class RecyclerViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-if(data.size==0) {
-    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 1", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_IMPORTANT, "LALA", "Описание 1"), true))
-    data.add(Pair(Data(Data.TYPE_EXTRA, "Заголовок 1", "TEST"), true))
-    data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "TESTING"), true))
-}
-
-        if (arguments != null) {
-           savedData = requireArguments().getParcelable(KEY_PARCEL)
-            data.add(Pair(savedData,false) as Pair<Data, Boolean>)
-            adapter.notifyItemInserted(data.size-1)
+        if (data.size == 0) {
+            data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 1", "Описание 1"), true))
+            data.add(Pair(Data(Data.TYPE_IMPORTANT, "Заголовок 2", "Описание 2"), true))
+            data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 3", "Описание 3"), true))
+            data.add(Pair(Data(Data.TYPE_IMPORTANT, "Lalala", "Описание 4"), true))
+            data.add(Pair(Data(Data.TYPE_EXTRA, "Заголовок 4", "TEST"), true))
+            data.add(Pair(Data(Data.TYPE_USUAL, "Заголовок 5", "TESTING"), true))
         }
 
-binding.searchBar.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
-    override fun onQueryTextSubmit(p0: String?): Boolean {
-       return false
-    }
+        if (arguments != null) {
+            savedData = requireArguments().getParcelable(KEY_PARCEL)
+            data.add(Pair(savedData, false) as Pair<Data, Boolean>)
+            adapter.notifyItemInserted(data.size - 1)
+        }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        adapter.filter.filter(newText)
-       return false
-    }
-})
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
 
-
-
-
-
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
         setAddNoteButtonBehavior()
         setAdaptersAndHelpers(data as ArrayList<Pair<Data, Boolean>>)
     }
@@ -93,7 +88,6 @@ binding.searchBar.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
                 .addToBackStack("").commit()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
